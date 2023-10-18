@@ -33,6 +33,9 @@ const userSchema = new Schema({
     place: {
       type: String,
     },
+    description: {
+      type: String,
+    },
   },
 });
 module.exports = mongoose.model("User", userSchema);
