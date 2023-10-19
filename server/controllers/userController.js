@@ -12,10 +12,16 @@ const addUser = async (req, res) => {
 };
 
 const getUserDetails = async (req, res) => {
-  const { address } = await req.body;
+  const { address, userId } = await req.body;
   try {
-    const user = await User.findOne({ address });
-    res.status(200).json(user);
+    let user;
+    if (address) {
+      user = await User.findOne({ address });
+      res.status(200).json(user);
+    } else if (userId) {
+      user = await User.findById(userId);
+      res.status(200).json(user);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
