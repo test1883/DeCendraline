@@ -1,6 +1,5 @@
 const User = require("../models/userModel.js");
 const Post = require("../models/postModel.js");
-const { generateChallenge } = require("../utils/langchain.js");
 
 const addUser = async (req, res) => {
   const body = await req.body;
@@ -30,24 +29,17 @@ const getUserDetails = async (req, res) => {
 
 const newChallenge = async (req, res) => {
   const { userId, challenge } = await req.body;
-  const description = await generateChallenge(
-    challenge.duration,
-    challenge.challengeType,
-    challenge.difficulty,
-    challenge.place
-  );
-  console.log(description);
-  // try {
-  //   await User.findOneAndUpdate(
-  //     { _id: userId },
-  //     {
-  //       currentChallenge: { ...challenge, description },
-  //     }
-  //   );
-  //   res.status(200).json({ message: "New challenge created" });
-  // } catch (error) {
-  //   res.status(400).json({ error: error.message });
-  // }
+  try {
+    await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        currentChallenge: challenge,
+      }
+    );
+    res.status(200).json({ message: "New challenge created" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 const newPost = async (req, res) => {
