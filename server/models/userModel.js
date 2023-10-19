@@ -18,7 +18,7 @@ const userSchema = new Schema({
   currentChallenge: {
     challengeType: {
       type: String,
-      enum: ["indoor", "outdoor", "exploration"],
+      enum: ["indoor", "outdoor", "explore"],
     },
     duration: {
       type: Number,
