@@ -3,8 +3,9 @@ const Tree = require("../models/treeModel");
 const newTree = async (req, res) => {
   const { tree } = await req.body;
   try {
-    await Tree.create({ ...tree });
-    res.status(200).json({ message: "Tree planted successfully" });
+    const n = await Tree.create({ ...tree });
+
+    res.status(200).json({ _id: n._id });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
