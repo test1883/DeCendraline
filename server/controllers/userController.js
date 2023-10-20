@@ -46,10 +46,11 @@ const newPost = async (req, res) => {
   const { post } = await req.body;
   try {
     await Post.create({ ...post });
+    const user = await User.findById(post.userId);
     await User.findOneAndUpdate(
       { _id: post.userId },
       {
-        points: points + post.points,
+        points: user.points + post.points,
       }
     );
     res.status(200).json({ message: "New post added" });
