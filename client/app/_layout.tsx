@@ -5,6 +5,9 @@ import { Slot, SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { ChallengeContextProvider } from "../context/ChallengeContext";
 import { AuthProvider } from "../context/AuthContext";
+import { Text } from "react-native";
+import { PostContextProvider } from "../context/PostContext";
+import { TreeContextProvider } from "../context/TreeContext";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -20,7 +23,8 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Poppins: require("../assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-b": require("../assets/fonts/Poppins-Bold.ttf"),
     ...FontAwesome.font,
   });
 
@@ -45,12 +49,25 @@ export default function RootLayout() {
 function RootLayoutNav() {
   return (
     <AuthProvider>
-      <ChallengeContextProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)/account" options={{ title: "Account" }} />
-        </Stack>
-      </ChallengeContextProvider>
+      <PostContextProvider>
+        <ChallengeContextProvider>
+          <TreeContextProvider>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="(auth)/account"
+                options={{ title: "Account" }}
+              />
+              <Stack.Screen
+                name="(auth)/login"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="(others)/trees" options={{ title: "" }} />
+              <Stack.Screen name="(others)/pool" options={{ title: "" }} />
+            </Stack>
+          </TreeContextProvider>
+        </ChallengeContextProvider>
+      </PostContextProvider>
     </AuthProvider>
   );
 }

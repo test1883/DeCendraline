@@ -5,9 +5,9 @@ export const newUser = async (
   about: string | null,
   address: string | null
 ) => {
-  console.log(userName);
-  console.log(about);
-  console.log(address);
+  //console.log(userName);
+  //console.log(about);
+  //console.log(address);
   const res = await fetch(`${NODE_SERVER}/api/users/add`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -15,8 +15,11 @@ export const newUser = async (
       userName,
       about,
       address,
+      points: 0,
     }),
   });
+  const j = await res.json();
+  //console.log(j);
   if (res.status === 200) {
     return true;
   } else {
@@ -25,20 +28,20 @@ export const newUser = async (
 };
 
 export const newChallenge = async (
-  userId: string,
+  userId: string | undefined,
   challenge: {
-    challengeType: "indoor" | "outdoor" | "exploration" | null;
-    duration: number | null;
+    challengeType: "indoor" | "outdoor" | "explore";
+    duration: number;
     difficulty:
       | "very easy"
       | "easy"
       | "medium"
       | "hard"
       | "very hard"
-      | "extreme"
-      | null;
-    acceptedAt: number | null;
-    place: string | null;
+      | "extreme";
+    acceptedAt: number;
+    place: string | undefined;
+    description: string;
   }
 ) => {
   const res = await fetch(`${NODE_SERVER}/api/users/new-challenge`, {
@@ -59,40 +62,52 @@ export const newChallenge = async (
 export const newPost = async (post: {
   title: string;
   description: string;
-  challengeDesc: string;
+  challengeDesc: string | undefined;
   createdAt: number;
-  isApproved: false;
+  isApproved: boolean;
   points: number;
   treeId: string | undefined;
   userId: string | undefined;
   images: string[];
   likes: string[];
 }) => {
-  const res = await fetch(`${NODE_SERVER}/api/users/new-post`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      post,
-    }),
-  });
-  if (res.status === 200) {
-    return true;
-  } else {
-    return false;
+  try {
+    const res = await fetch(`${NODE_SERVER}/api/users/new-post`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        post,
+      }),
+    });
+    const r = await res.json();
+    //console.log(r);
+    if (res.status === 200) {
+      //console.log("ess");
+      return true;
+    } else {
+      //console.log("err");
+      return false;
+    }
+  } catch (err) {
+    //console.log(err);
   }
 };
 
-export const userDetails = async (address: string) => {
-  console.log(TW_CLIENT_ID);
-  console.log(NODE_SERVER);
+export const userDetails = async (
+  address: string | null,
+  userId: string | null
+) => {
+  //console.log(TW_CLIENT_ID);
+  //console.log(NODE_SERVER);
   const res = await fetch(`${NODE_SERVER}/api/users/user-details`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       address,
+      userId,
     }),
   });
-  console.log(res);
+  //console.log(res);
   const data = await res.json();
   return data;
 };
@@ -196,10 +211,6 @@ export const getUnApprovedPosts = async (address: string) => {
 
 export const newTree = async (tree: {
   name: string;
-  place: {
-    latitude: number;
-    longitude: number;
-  };
   plantedAt: number;
   lastWatered: number;
   plantedBy: string;
@@ -211,8 +222,10 @@ export const newTree = async (tree: {
       tree,
     }),
   });
+  const response = await res.json();
+  console.log(response);
   if (res.status === 200) {
-    return true;
+    return response._id;
   } else {
     return false;
   }

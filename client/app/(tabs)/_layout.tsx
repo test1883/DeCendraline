@@ -2,12 +2,10 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs, router } from "expo-router";
 import { Pressable, View, Image, Text } from "react-native";
 
-import { ChallengeContext } from "../../context/ChallengeContext";
 import { useContext, useEffect } from "react";
-import { LinearGradient } from "expo-linear-gradient";
-import { Svg } from "react-native-svg";
 import Colors from "../../constants/Colors";
 import { useAuth } from "../../context/AuthContext";
+import { PostContext } from "../../context/PostContext";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -26,13 +24,14 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const { dispatch } = useContext(ChallengeContext);
+  const { dispatch } = useContext(PostContext);
   const { user } = useAuth();
   useEffect(() => {
+    //console.log("here");
     if (user?.address !== undefined && user?.userName === undefined) {
       router.replace("/account");
     }
-  });
+  }, [user]);
   return (
     <Tabs
       safeAreaInsets={{
@@ -52,18 +51,6 @@ export default function TabLayout() {
           padding: 15,
           backgroundColor: Colors.primary,
         },
-        // tabBarBackground: () => {
-        //   return (
-        //     <LinearGradient
-        //       colors={[Colors.primary]}
-        //       locations={[1]}
-        //       style={{
-        //         height: "100%",
-        //         borderRadius: 20,
-        //       }}
-        //     />
-        //   );
-        // },
         headerShown: true,
         headerLeft: () => (
           <Image
@@ -74,18 +61,62 @@ export default function TabLayout() {
           />
         ),
         headerRight: () => (
+          // <View
+          //   style={{
+          //     width: 100,
+          //     height: 100,
+          //   }}
+          // >
           <Link href="(auth)/account" asChild>
             <Pressable>
               {({ pressed }) => (
-                <FontAwesome
-                  name="user"
-                  size={25}
-                  color={Colors.primary}
-                  style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                />
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 10,
+                    alignItems: "center",
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 7,
+                      borderWidth: 0.5,
+                      borderRadius: 100,
+                      padding: 5,
+                      borderColor: Colors.primary,
+                    }}
+                  >
+                    <Image
+                      source={require("../../assets/images/coin.png")}
+                      style={{
+                        width: 28,
+                        height: 28,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontFamily: "Poppins-b",
+                        fontSize: 10,
+                        color: Colors.primary,
+                      }}
+                    >
+                      {user?.points}
+                    </Text>
+                  </View>
+                  <FontAwesome
+                    name="user"
+                    size={25}
+                    color={Colors.primary}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                </View>
               )}
             </Pressable>
           </Link>
+          // </View>
         ),
       }}
     >
@@ -118,7 +149,7 @@ export default function TabLayout() {
               }}
               onPress={(e) => {
                 e.preventDefault();
-                dispatch({ type: "OPEN_MODAL" });
+                dispatch({ type: "OPEN_MODAL", payload: "random" });
               }}
             >
               <Text>

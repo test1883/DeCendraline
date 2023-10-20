@@ -26,6 +26,7 @@ const AppInner = () => {
   const { user, setUser } = useAuth();
   const textStyles = {
     color: "#fff",
+    fontFamily: "Poppins",
     ...styles.heading,
   };
 
@@ -39,10 +40,12 @@ const AppInner = () => {
             userName: undefined,
             about: undefined,
             currentChallenge: undefined,
+            userId: undefined,
+            points: 0,
           });
         }}
       >
-        <Text>Connect</Text>
+        <Text style={{ fontFamily: "Poppins" }}>Connect</Text>
       </Pressable>
       {/* <ConnectWallet /> */}
     </View>

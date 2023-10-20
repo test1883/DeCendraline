@@ -3,23 +3,25 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { userDetails } from "../utils/nodeUtils";
 
 type User = {
+  userId: string | undefined;
+  points: number | undefined;
   userName: string | undefined;
   about: string | undefined;
   address: string | undefined;
   currentChallenge:
     | {
-        challengeType: "indoor" | "outdoor" | "exploration" | undefined;
-        duration: number | undefined;
+        challengeType: "indoor" | "outdoor" | "explore";
+        duration: number;
         difficulty:
           | "very easy"
           | "easy"
           | "medium"
           | "hard"
           | "very hard"
-          | "extreme"
-          | undefined;
-        acceptedAt: number | undefined;
+          | "extreme";
+        acceptedAt: number;
         place: string | undefined;
+        description: string;
       }
     | undefined;
 };
@@ -42,27 +44,30 @@ function useProtectedRoute(user: User | null, setUser: any) {
   const s = useRootNavigationState();
 
   useEffect(() => {
-    console.log(s);
+    //console.log(s);
     const inAuthGroup = segments[0] === "(auth)";
 
     if (!user && !inAuthGroup) {
       // Redirect to the sign-in page.
-      console.log("here");
-      if (s !== undefined) {
-        if (s.stale === false) {
-          console.log(s);
-          router.replace("/login");
-        }
+      //console.log(inAuthGroup);
+      //console.log("here");
+      //@ts-ignore
+      if (s?.stale === false) {
+        //console.log(s);
+        router.replace("/login");
       }
-    } else if (user && inAuthGroup) {
+    } else if (user && inAuthGroup && segments[1] !== "account") {
       (async function () {
-        console.log("hhhhhh");
+        //console.log(segments);
+        //console.log("hhhhhh");
         if (!user.userName) {
-          const res = await userDetails(user.address!);
+          const res = await userDetails(user.address!, null);
           if (res === null) {
             router.replace("/account");
           } else {
             setUser({
+              userId: res._id,
+              points: res.points,
               address: user.address,
               userName: res.userName,
               about: res.about,
@@ -72,8 +77,10 @@ function useProtectedRoute(user: User | null, setUser: any) {
           }
         }
       })();
+    } else if (user?.userName && segments[0] === "auth") {
+      router.replace("/");
     }
-  }, [user, segments, s]);
+  }, [user, segments, s?.stale]);
 }
 
 export function AuthProvider({

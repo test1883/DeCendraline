@@ -2,21 +2,20 @@ import { createContext, useReducer, ReactNode, Dispatch, FC } from "react";
 
 type InitialStateType = {
   modal: boolean;
-  challenge: string;
 };
 
 export const ChallengeContext = createContext<{
   state: InitialStateType;
   dispatch: Dispatch<any>;
 }>({
-  state: { modal: true, challenge: "" },
+  state: { modal: true },
   dispatch: () => null,
 });
 
 export const challengeReducer = (state: any, action: any) => {
   switch (action.type) {
     case "OPEN_MODAL":
-      console.log("here");
+      //console.log("here");
       return {
         ...state,
         modal: true,
@@ -25,16 +24,6 @@ export const challengeReducer = (state: any, action: any) => {
       return {
         ...state,
         modal: false,
-      };
-    case "NEW_CHALLENGE":
-      return {
-        ...state,
-        challenge: action.payload,
-      };
-    case "CLEAR_CHALLENGE":
-      return {
-        modal: false,
-        challenge: "",
       };
     default:
       return state;
@@ -45,10 +34,9 @@ interface Props {
 }
 export const ChallengeContextProvider = (props: Props) => {
   const [state, dispatch] = useReducer(challengeReducer, {
-    challenge: "",
     modal: false,
   });
-  console.log(dispatch);
+  //console.log(dispatch);
   return (
     <ChallengeContext.Provider value={{ state, dispatch }}>
       {props.children}

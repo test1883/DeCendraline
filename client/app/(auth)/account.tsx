@@ -13,7 +13,6 @@ import * as ImagePicker from "expo-image-picker";
 import Colors from "../../constants/Colors";
 import { newUser } from "../../utils/nodeUtils";
 import { useAuth } from "../../context/AuthContext";
-import { PINATA } from "@env";
 
 const Account = () => {
   const { user } = useAuth();
@@ -62,7 +61,7 @@ const Account = () => {
             placeholder="Set About"
           />
           <Pressable onPress={handleSubmit}>
-            <Text>Save Changes</Text>
+            <Text style={{ fontFamily: "Poppins" }}>Save Changes</Text>
           </Pressable>
         </View>
       </Pressable>

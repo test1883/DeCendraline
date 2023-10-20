@@ -10,7 +10,7 @@ export default function TabTwoScreen() {
 
   return (
     <View>
-      <Text style={styles.title}>Posts</Text>
+      <Text style={styles.title}>Trees Planted</Text>
       <ScrollView
         contentContainerStyle={{
           justifyContent: "center",
@@ -20,9 +20,11 @@ export default function TabTwoScreen() {
         }}
       >
         {state.posts
-          ? state.posts.map((post, index) => {
-              return <PostCard {...post} key={index} />;
-            })
+          ? state.posts
+              .filter((post) => post.title === "Planted a tree")
+              .map((post, index) => {
+                return <PostCard {...post} key={index} />;
+              })
           : ""}
       </ScrollView>
       <PostModal />
