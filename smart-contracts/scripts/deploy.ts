@@ -1,12 +1,9 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const Wallet = await ethers.getContractFactory("Wallet");
-  const walletPFP = await Wallet.deploy();
+  const wallet = await ethers.deployContract("Wallet");
 
-  await walletPFP.deployed();
-
-  console.log("Polygon PFP deployed to:", walletPFP.address);
+  //console.log("Wallet address:", await wallet.getAddress());
 }
 
 // We recommend this pattern to be able to use async/await everywhere
