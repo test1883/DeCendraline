@@ -157,6 +157,21 @@ const getWinner = async (req, res) => {
   }
 };
 
+const redeemPoints = async (req, res) => {
+  const { userId } = await req.body;
+  try {
+    await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        points: 0,
+      }
+    );
+    res.status(200).json({ message: "Rewards redeemed" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getUnApprovedPosts = async (req, res) => {
   const { address } = await req.body;
   try {
@@ -184,4 +199,5 @@ module.exports = {
   getPosts,
   getUnApprovedPosts,
   getWinner,
+  redeemPoints,
 };

@@ -11,6 +11,7 @@ router.post("/new-challenge", user.newChallenge);
 router.post("/new-post", user.newPost);
 
 router.post("/winner", user.getWinner);
+router.post("/redeem", user.redeemPoints);
 
 router.post("/user-details", user.getUserDetails);
 
