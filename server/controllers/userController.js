@@ -141,7 +141,7 @@ const declinePost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try {
-    const posts = await Post.find({ isApproved: true });
+    const posts = await Post.find({ isApproved: true }).sort({ createdAt: -1 });
     res.status(200).json(posts);
   } catch (error) {
     res.status(400).json({ error: error.message });
