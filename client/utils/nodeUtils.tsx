@@ -197,6 +197,25 @@ export const getPosts = async () => {
   return data;
 };
 
+export const getWinner = async () => {
+  const res = await fetch(`${NODE_SERVER}/api/users/winner`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await res.json();
+  return data;
+};
+
+export const redeemPoints = async (userId: string) => {
+  const res = await fetch(`${NODE_SERVER}/api/users/redeem`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId }),
+  });
+  const data = await res.json();
+  return data;
+};
+
 export const getUnApprovedPosts = async (address: string) => {
   const res = await fetch(`${NODE_SERVER}/api/users/get-unapproved-posts`, {
     method: "POST",

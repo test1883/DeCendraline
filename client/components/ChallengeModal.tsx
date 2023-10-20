@@ -212,19 +212,74 @@ export default function ChallengeModal(props: any) {
             style={{
               padding: 10,
               backgroundColor: Colors.primary,
+              marginTop: 20,
+              width: "90%",
+              borderRadius: 10,
             }}
           >
-            <Text style={{ fontFamily: "Poppins" }}>New Challenge</Text>
+            <Text
+              style={{
+                fontFamily: "Poppins-b",
+                color: "white",
+                textAlign: "center",
+              }}
+            >
+              New Challenge
+            </Text>
           </Pressable>
           {challengeMsg.length > 0 ? (
             <View>
               <Text>{challengeMsg}</Text>
-              <Pressable onPress={generateChallenge}>
-                <Text>Retry</Text>
-              </Pressable>
-              <Pressable onPress={acceptChallenge}>
-                <Text>Accept</Text>
-              </Pressable>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Pressable
+                  onPress={generateChallenge}
+                  style={{
+                    padding: 10,
+                    borderColor: Colors.primary,
+                    borderWidth: 1,
+                    marginTop: 20,
+                    width: "90%",
+                    borderRadius: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-b",
+                      color: Colors.primary,
+                      textAlign: "center",
+                    }}
+                  >
+                    Retry
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={acceptChallenge}
+                  style={{
+                    padding: 10,
+                    borderColor: Colors.primary,
+                    borderWidth: 1,
+                    marginTop: 20,
+                    width: "90%",
+                    borderRadius: 10,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Poppins-b",
+                      color: Colors.primary,
+                      textAlign: "center",
+                    }}
+                  >
+                    Accept
+                  </Text>
+                </Pressable>
+              </View>
             </View>
           ) : (
             ""

@@ -2,7 +2,10 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Pressable, StyleSheet, TextInput } from "react-native";
 
 import { Modal, View, Dimensions, TouchableOpacity, Text } from "react-native";
-import { newChallenge as newChallengeDjango } from "../utils/djangoUtils";
+import {
+  getAQI,
+  newChallenge as newChallengeDjango,
+} from "../utils/djangoUtils";
 import { useContext, useEffect, useState } from "react";
 import { ChallengeContext } from "../context/ChallengeContext";
 import { Picker } from "@react-native-picker/picker";
@@ -48,6 +51,19 @@ export default function PostModal(props: any) {
       setImage(result.assets[0].uri);
     }
   };
+  const getPoints = () => {
+    const d = {
+      "very easy": 1,
+      easy: 2,
+      medium: 3,
+      hard: 4,
+      "very hard": 5,
+      extreme: 6,
+    };
+    let diff = d[user?.currentChallenge?.difficulty || "very easy"];
+    const duration = user?.currentChallenge?.duration || 1;
+    return diff * duration;
+  };
   const addPost = async () => {
     const url = await uploadImage(image);
     //console.log(url);
@@ -73,6 +89,19 @@ export default function PostModal(props: any) {
       treeId: undefined,
       likes: [],
     };
+    if (postType === "current challenge") {
+      const d = {
+        "very easy": 1,
+        easy: 2,
+        medium: 3,
+        hard: 4,
+        "very hard": 5,
+        extreme: 6,
+      };
+      let diff = d[user?.currentChallenge?.difficulty || "very easy"];
+      const duration = user?.currentChallenge?.duration || 1;
+      post.points = diff * duration;
+    }
     if (postType === "plant tree") {
       const tree = {
         name: treeName,
@@ -80,6 +109,7 @@ export default function PostModal(props: any) {
         lastWatered: Date.now(),
         plantedBy: user?.userId || "",
       };
+      post.points = 500;
       const r = await newTree(tree);
       if (r) {
         treeDispatch({
@@ -173,6 +203,16 @@ export default function PostModal(props: any) {
               />
             </Picker>
           </View>
+          <Text>
+            {postType === "current challenge"
+              ? getPoints()
+              : postType === "plant tree"
+              ? 500
+              : postType === "water tree"
+              ? 10
+              : ""}
+            Points
+          </Text>
           {postType === "water tree" && (
             <View
               style={{

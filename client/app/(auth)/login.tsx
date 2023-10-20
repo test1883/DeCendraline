@@ -1,38 +1,40 @@
-// import {
-//   ConnectWallet,
-//   localWallet,
-//   metamaskWallet,
-//   rainbowWallet,
-//   ThirdwebProvider,
-// } from "@thirdweb-dev/react-native";
+import {
+  ConnectWallet,
+  localWallet,
+  metamaskWallet,
+  rainbowWallet,
+  ThirdwebProvider,
+} from "@thirdweb-dev/react-native";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
-// import { TW_CLIENT_ID } from "@env";
+import { TW_CLIENT_ID } from "@env";
 
 const Login = () => {
   return (
-    //   {// <ThirdwebProvider
-    //   //   clientId={TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
-    //   //   activeChain="mumbai"
-    //   //   supportedWallets={[metamaskWallet(), rainbowWallet(), localWallet()]}
-    // // >}
-    <AppInner />
-    // </ThirdwebProvider>
+    <ThirdwebProvider
+      clientId={TW_CLIENT_ID} // uncomment this line after you set your clientId in the .env file
+      activeChain="mumbai"
+      supportedWallets={[metamaskWallet(), rainbowWallet(), localWallet()]}
+    >
+      <AppInner />
+    </ThirdwebProvider>
   );
 };
 
 const AppInner = () => {
   const { user, setUser } = useAuth();
   const textStyles = {
-    color: "#fff",
-    fontFamily: "Poppins",
+    color: "black",
+    fontFamily: "Poppins-b",
     ...styles.heading,
   };
 
   return (
     <View style={styles.view}>
-      <Text style={textStyles}>React Native thirdweb starter</Text>
+      <Text style={textStyles}>
+        Feel some great adrenaline rushes using DeCendraline
+      </Text>
       <Pressable
         onPress={() => {
           setUser({
@@ -44,8 +46,16 @@ const AppInner = () => {
             points: 0,
           });
         }}
+        style={{
+          width: "90%",
+          backgroundColor: "black",
+          padding: 10,
+          borderRadius: 10,
+        }}
       >
-        <Text style={{ fontFamily: "Poppins" }}>Connect</Text>
+        <Text style={{ fontFamily: "Poppins", textAlign: "center" }}>
+          Connect
+        </Text>
       </Pressable>
       {/* <ConnectWallet /> */}
     </View>

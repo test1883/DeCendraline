@@ -87,6 +87,7 @@ export default function TabLayout() {
                       borderRadius: 100,
                       padding: 5,
                       borderColor: Colors.primary,
+                      alignItems: "center",
                     }}
                   >
                     <Image
@@ -99,7 +100,7 @@ export default function TabLayout() {
                     <Text
                       style={{
                         fontFamily: "Poppins-b",
-                        fontSize: 10,
+                        fontSize: 12,
                         color: Colors.primary,
                       }}
                     >

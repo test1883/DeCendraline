@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { userDetails } from "../utils/nodeUtils";
 import Colors from "../constants/Colors";
 
@@ -67,6 +67,28 @@ export default function PostCard(props: {
             </View>
             <Text>{props.points}</Text>
           </View>
+
+          {props.challengeDesc && (
+            <Text
+              style={{
+                width: "90%",
+                paddingTop: 10,
+              }}
+            >
+              {props.challengeDesc}
+            </Text>
+          )}
+          <Text
+            style={{
+              width: "90%",
+              textAlign: "left",
+              paddingVertical: 10,
+              fontFamily: "Poppins",
+              fontSize: 14,
+            }}
+          >
+            {props.description}
+          </Text>
           {props.images[0].length >= 0 && (
             <Image
               source={{ uri: props.images[0] }}
@@ -92,7 +114,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    height: 400,
     width: "80%",
     backgroundColor: "#fff",
     borderRadius: 30,

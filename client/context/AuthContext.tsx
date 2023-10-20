@@ -59,7 +59,7 @@ function useProtectedRoute(user: User | null, setUser: any) {
     } else if (user && inAuthGroup && segments[1] !== "account") {
       (async function () {
         //console.log(segments);
-        //console.log("hhhhhh");
+        // console.log("hhhhhh");
         if (!user.userName) {
           const res = await userDetails(user.address!, null);
           if (res === null) {
