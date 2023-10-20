@@ -29,7 +29,7 @@ const getTrees = async (req, res) => {
   const { userId } = await req.body;
   try {
     const trees = await Tree.find({ plantedBy: userId });
-    res.status(200).json({ ...trees });
+    res.status(200).json([...trees]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
