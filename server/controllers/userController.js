@@ -46,6 +46,12 @@ const newPost = async (req, res) => {
   const { post } = await req.body;
   try {
     await Post.create({ ...post });
+    await User.findOneAndUpdate(
+      { _id: post.userId },
+      {
+        points: points + post.points,
+      }
+    );
     res.status(200).json({ message: "New post added" });
   } catch (error) {
     res.status(400).json({ error: error.message });

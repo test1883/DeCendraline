@@ -7,6 +7,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  points: {
+    type: Number,
+    required: true,
+  },
   about: {
     type: String,
   },
