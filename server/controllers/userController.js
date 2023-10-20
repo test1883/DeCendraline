@@ -148,6 +148,15 @@ const getPosts = async (req, res) => {
   }
 };
 
+const getWinner = async (req, res) => {
+  try {
+    const user = await User.find().sort({ points: -1 });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getUnApprovedPosts = async (req, res) => {
   const { address } = await req.body;
   try {
@@ -174,4 +183,5 @@ module.exports = {
   declinePost,
   getPosts,
   getUnApprovedPosts,
+  getWinner,
 };
