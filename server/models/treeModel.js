@@ -7,16 +7,6 @@ const treeSchema = new Schema({
     type: String,
     required: true,
   },
-  place: {
-    latitude: {
-      type: Number,
-      required: true,
-    },
-    longitude: {
-      type: Number,
-      required: true,
-    },
-  },
   plantedAt: {
     type: Number,
     required: true,
